@@ -32,6 +32,12 @@ public class Curso {
 		this.log = new Registro();
 	}
 	
+	public Integer getCreditosOtorgados() {
+		return creditos;
+	}
+	public Integer getCicloLectivo() {
+		return cicloLectivo;
+	}
 
 	/**
 	 * Este método, verifica si el alumno se puede inscribir y si es así lo agrega al curso,
