@@ -17,7 +17,7 @@ class AlumnoTest {
 		alumnos.add(new Alumno("Alberto",32));
 		alumnos.add(new Alumno("Alberto Jose",32));
 		alumnos.add(new Alumno("Brian",35));
-
+		
 
 		
 		cursos.add(new Curso(1, "matematica", 1, 30, 1, 0));
@@ -165,5 +165,10 @@ class AlumnoTest {
 		assertEquals(respuesta,2);
 		
 	}
+
+	
+	
+
+
 
 }

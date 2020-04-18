@@ -83,5 +83,12 @@ public class Alumno implements Comparable<Alumno> {
 
 		return cantidad;
 	}
+	
+	@Override
+	public String toString(){
+		String texto;
+		texto = this.nombre+"\t\t"+this.nroLibreta+"\t\t"+this.creditosObtenidos();
+		return texto;
+	}
 
 }
