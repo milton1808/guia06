@@ -86,10 +86,6 @@ public class Curso {
 		if(a.cantidadCursosCicloLectivo(cicloLectivo) >= 3) return false;
 		if(inscriptos.contains(a)) return false;
 		
-		// inscribe al alumno al curso
-		inscriptos.add(a);
-		a.inscripcionAceptada(this);
-		
 		// registra la inscripcion en el log
 		try {
 			log.registrar(this, "inscribir ",a.toString());
@@ -97,6 +93,12 @@ public class Curso {
 		catch(IOException e){
 			System.out.println("Ocurrio un error al intentar escribir en el Registro.");
 		}
+		
+		// inscribe al alumno al curso
+		inscriptos.add(a);
+		a.inscripcionAceptada(this);
+		
+		
 		
 		return true;
 	}

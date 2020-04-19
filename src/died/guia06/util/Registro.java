@@ -16,8 +16,8 @@ public class Registro {
 	
 	public void registrar(Curso c,String operacion,String detalle) throws IOException {
 		BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true));
-		writer.append("["+LocalDateTime.now().toString()+"]se registro la operacion: "+ operacion+" en el curso"+ c.toString());
-		writer.append("Detalle"+ detalle);
+		writer.append("\n["+LocalDateTime.now().toString()+"]se registro la operacion: "+ operacion+" en el curso\n"+ c.toString());
+		writer.append("\nDetalle: "+ detalle);
 		writer.close();
 	}
 	
