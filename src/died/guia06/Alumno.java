@@ -47,6 +47,7 @@ public class Alumno implements Comparable<Alumno> {
 		if(cursando.contains(c)) {
 			aprobados.add(c);
 			cursando.remove(c);
+			c.aprobar(this);
 		}
 		else System.out.println("El alumno no pertenece al curso que se quiere aprobar.");
 	}

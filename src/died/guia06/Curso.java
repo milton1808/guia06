@@ -54,6 +54,10 @@ public class Curso {
 	public Integer getCicloLectivo() {
 		return cicloLectivo;
 	}
+	
+	public String getNombre() {
+		return nombre;
+	}
 	@Override
 	public String toString() {
 		String frase;
@@ -64,6 +68,10 @@ public class Curso {
 		
 		return frase;
 		
+	}
+	
+	public void aprobar(Alumno a) {
+		inscriptos.remove(a);
 	}
 
 	/**
@@ -85,6 +93,7 @@ public class Curso {
 		if(inscriptos.size() >= cupo) return false;
 		if(a.cantidadCursosCicloLectivo(cicloLectivo) >= 3) return false;
 		if(inscriptos.contains(a)) return false;
+		if(a.getAprobados().contains(this)) return false;
 		
 		// registra la inscripcion en el log
 		try {
