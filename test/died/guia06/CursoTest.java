@@ -225,5 +225,103 @@ class CursoTest {
 		
 		
 	}
+	
+	@Test
+	void testNuevaInscripcionValida() throws CreditosInsuficientesException, CupoCubiertoException, ExcesoDeCursosDelMismoCicloException, CursoYaAprobadoException, YaPerteneceAlCursoException, RegistroAuditoriaException {
+		
+		cursos.get(0).inscribirAlumno(alumnos.get(0));
+		
+		assertEquals(cursos.get(0),alumnos.get(0).getCursando().get(0));
+		
+	}
+	
+	 @Test
+	void testNuevaInscripcionInvalidaPorCreditos() throws CupoCubiertoException, ExcesoDeCursosDelMismoCicloException, CursoYaAprobadoException, YaPerteneceAlCursoException, RegistroAuditoriaException {
+	
+		try {
+			cursos.get(4).inscribirAlumno(alumnos.get(0));
+			fail();
+		} catch (CreditosInsuficientesException e) {
+			assertEquals(e.getMessage(),"El Alumno no es digno de este Gran Curso. Posee creditos insuficientes.");
+		}
+		
+	}
+	
+	@Test
+	void testNuevaInscripcionInvalidaPorCupo() throws IOException, CreditosInsuficientesException, ExcesoDeCursosDelMismoCicloException, CursoYaAprobadoException, YaPerteneceAlCursoException, RegistroAuditoriaException{
+		
+		cursos.get(1).inscribir(alumnos.get(0));
+		cursos.get(1).inscribir(alumnos.get(1));
+		
+		try {
+			cursos.get(1).inscribirAlumno(alumnos.get(2));
+			fail();
+		} catch (CupoCubiertoException e) {
+			assertEquals(e.getMessage(),"Suerte para la próxima. El alumno no se pudo incribir porque el cupo del curso está cubierto.");
+		}
+		
+	}
+	@Test
+	void testNuevaInscripcionInvalidaPorCicloLectivo() throws IOException, CreditosInsuficientesException, CupoCubiertoException, CursoYaAprobadoException, YaPerteneceAlCursoException, RegistroAuditoriaException {
+		cursos.get(0).inscribir(alumnos.get(0));
+		cursos.get(1).inscribir(alumnos.get(0));
+		cursos.get(9).inscribir(alumnos.get(0));
+		
+		
+		try {
+			cursos.get(10).inscribirAlumno(alumnos.get(0));
+			fail();
+		} catch (ExcesoDeCursosDelMismoCicloException e) {
+			assertEquals(e.getMessage(),"Crees que puedes con todo pero no es así Nemo. No se pudo inscribir al alumno por exeso de materias del mismo ciclo lectivo.");
+
+		}
+		
+		
+	}
+	@Test
+	void testNuevaInscripcionInvalidaPorYaEstarInscripto() throws IOException, CreditosInsuficientesException, CupoCubiertoException, ExcesoDeCursosDelMismoCicloException, CursoYaAprobadoException, RegistroAuditoriaException {
+				
+		cursos.get(10).inscribir(alumnos.get(0));
+		
+		try {
+			cursos.get(10).inscribirAlumno(alumnos.get(0));
+			fail();
+		} catch (YaPerteneceAlCursoException e) {
+			assertEquals(e.getMessage(),"No te pases de vivo. El alumno ya está inscripto a este curso.");
+
+		}
+	
+	}
+	
+	@Test
+	void testNuevaInscripcionInvalidaPorTenerCursoAprobado() throws IOException, CreditosInsuficientesException, CupoCubiertoException, ExcesoDeCursosDelMismoCicloException, YaPerteneceAlCursoException, RegistroAuditoriaException {
+				
+		cursos.get(0).inscribir(alumnos.get(0));
+		alumnos.get(0).aprobar(cursos.get(0));
+		
+		try {
+			cursos.get(0).inscribirAlumno(alumnos.get(0));
+			fail();
+		} catch (CursoYaAprobadoException e) {
+			assertEquals(e.getMessage(),"Si te olvidaste de todo asistí de oyente. El alumno ya tiene aprobado este curso.");
+
+		}
+	
+	}
+
+	
+	// Una forma de probar este test es haciendo de solo lectura el archivo "registro.log"
+	@Test
+	void testNuevaInscripcionInvalidaPorErrorDeRegistro() throws IOException, CreditosInsuficientesException, CupoCubiertoException, ExcesoDeCursosDelMismoCicloException, CursoYaAprobadoException, YaPerteneceAlCursoException {
+				
+		try {
+			cursos.get(0).inscribirAlumno(alumnos.get(0));
+			fail();
+		} catch (RegistroAuditoriaException e) {
+			assertEquals(e.getMessage(),"Ocurrió un error en el Registro y no se pudo completar la operación. vuelvas prontos.");
+		}
+	
+	
+	}
 
 }
