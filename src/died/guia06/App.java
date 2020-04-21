@@ -1,5 +1,6 @@
 package died.guia06;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -39,8 +40,15 @@ public class App {
 			randomCurso = numRandom.nextInt(10);
 			randomAlumno = numRandom.nextInt(30);
 			
-			if(cursos.get(randomCurso).inscribir(alumnos.get(randomAlumno))) System.out.println("Se inscribio "+alumnos.get(randomAlumno).getNombre()+" en "+cursos.get(randomCurso).getNombre());
-			else System.out.println("NO SE PUDO INSCRIBIR "+alumnos.get(randomAlumno).getNombre()+" en "+cursos.get(randomCurso).getNombre());
+			try {
+				
+				if(cursos.get(randomCurso).inscribir(alumnos.get(randomAlumno))) System.out.println("Se inscribio "+alumnos.get(randomAlumno).getNombre()+" en "+cursos.get(randomCurso).getNombre());
+				else System.out.println("NO SE PUDO INSCRIBIR "+alumnos.get(randomAlumno).getNombre()+" en "+cursos.get(randomCurso).getNombre());
+			
+			} catch (IOException e) {
+				System.out.println("No se realizó la operación. Error al intentar escribir en el Registro, verifique el archivo registro.log");
+				
+			}
 			
 			randomCurso = numRandom.nextInt(10);
 			randomAlumno = numRandom.nextInt(30);			
@@ -50,24 +58,45 @@ public class App {
 		
 		//imprimirmos los cursos por orden alfabetico
 		for(int i=0; i<10;i++) {
-			cursos.get(i).imprimirInscriptos();
+			try {
+				
+				cursos.get(i).imprimirInscriptos();
+			
+			} catch (IOException e) {
+				System.out.println("No se realizó la operación. Error al intentar escribir en el Registro, verifique el archivo registro.log");
+
+			}
 		}
 		pauser.nextLine();
 		
 		//imprimimos los cursos por nro de libreta
 		for(int i=0; i<10;i++) {
-			cursos.get(i).imprimirInscriptosPorLibreta();
+			try {
+				
+				cursos.get(i).imprimirInscriptosPorLibreta();
+			
+			} catch (IOException e) {
+				System.out.println("No se realizó la operación. Error al intentar escribir en el Registro, verifique el archivo registro.log");
+
+			}
 		}
 		
 		pauser.nextLine();
 		
 		//imprimimos los cursos por nro de libreta
 		for(int i=0; i<10;i++) {
-			cursos.get(i).imprimirInscriptosPorCreditosObtenidos();
+			try {
+				
+				cursos.get(i).imprimirInscriptosPorCreditosObtenidos();
+			
+			} catch (IOException e) {
+				System.out.println("No se realizó la operación. Error al intentar escribir en el Registro, verifique el archivo registro.log");
+
+			}
 		}
 		
 				
-		
+		pauser.close();
 		
 		
 	}

@@ -86,8 +86,9 @@ public class Curso {
 	 *      c) puede estar inscripto en simultÃ¡neo a no mÃ¡s de 3 cursos del mismo ciclo lectivo.
 	 * @param a
 	 * @return
+	 * @throws IOException 
 	 */
-	public Boolean inscribir(Alumno a) {
+	public Boolean inscribir(Alumno a) throws IOException {
 		//se verifica si el alumno se puede inscribir
 		if(a.creditosObtenidos() < creditosRequeridos) return false;
 		if(inscriptos.size() >= cupo) return false;
@@ -100,7 +101,7 @@ public class Curso {
 			log.registrar(this, "inscribir ",a.toString());
 		}
 		catch(IOException e){
-			System.out.println("Ocurrio un error al intentar escribir en el Registro.");
+			throw e;	
 		}
 		
 		// inscribe al alumno al curso
@@ -115,54 +116,82 @@ public class Curso {
 	
 	/**
 	 * imprime los inscriptos en orden alfabetico
+	 * @throws IOException 
 	 */
-	public void imprimirInscriptos() {
+	public void imprimirInscriptos() throws IOException {
 		
 		Collections.sort(inscriptos);
-		System.out.println(this.toString());
+		
 		
 		//registra la impresión en el log
 		try {
 			log.registrar(this, "imprimir listado",this.inscriptos.size()+ " registros ");
 		}
 		catch(IOException e){
-			System.out.println("Ocurrio un error al intentar escribir en el Registro.");
+			throw e;
 		}
+		
+		System.out.println(this.toString());
 		
 	}
 	
 	//imprime inscriptos por nroLibreta en orden ascendente
-	public void imprimirInscriptosPorLibreta() {
+	public void imprimirInscriptosPorLibreta() throws IOException {
 		
 		CompararLibreta comparador = new CompararLibreta();
 		Collections.sort(inscriptos,comparador);		
-		System.out.println(this.toString());
+		
 
 		//registra la impresión en el log
 		try {
 			log.registrar(this, "imprimir listado",this.inscriptos.size()+ " registros ");
 		}
 		catch(IOException e){
-			System.out.println("Ocurrio un error al intentar escribir en el Registro.");
+			throw e;
 		}
+		
+		System.out.println(this.toString());
 		
 	}
 	
 	//imprime inscriptos por cantidad de creditos obtenidos en orden descendente
-		public void imprimirInscriptosPorCreditosObtenidos() {
+		public void imprimirInscriptosPorCreditosObtenidos() throws IOException {
 			
 			CompararCreditos comparador = new CompararCreditos();
 			Collections.sort(inscriptos,comparador);		
-			System.out.println(this.toString());
+			
 
 			//registra la impresión en el log
 			try {
 				log.registrar(this, "imprimir listado",this.inscriptos.size()+ " registros ");
 			}
 			catch(IOException e){
-				System.out.println("Ocurrio un error al intentar escribir en el Registro.");
+				throw e;
 			}
 			
+			System.out.println(this.toString());
+			
+		}
+		
+		public void inscribirAlumno(Alumno a) throws CreditosInsuficientesException, CupoCubiertoException, ExcesoDeCursosDelMismoCicloException, CursoYaAprobadoException, YaPerteneceAlCursoException, RegistroAuditoriaException {
+			//se verifica si el alumno se puede inscribir
+			if(a.creditosObtenidos() < creditosRequeridos) throw new CreditosInsuficientesException("El Alumno no es digno de este Gran Curso. Posee creditos insuficientes.");
+			if(inscriptos.size() >= cupo) throw new CupoCubiertoException("Suerte para la próxima. El alumno no se pudo incribir porque el cupo del curso está cubierto.");
+			if(a.cantidadCursosCicloLectivo(cicloLectivo) >= 3) throw new ExcesoDeCursosDelMismoCicloException("Crees que puedes con todo pero no es así Nemo. No se pudo inscribir al alumno por exeso de materias del mismo ciclo lectivo.");
+			if(inscriptos.contains(a)) throw new YaPerteneceAlCursoException("No te pases de vivo. El alumno ya está inscripto a este curso.");
+			if(a.getAprobados().contains(this)) throw new CursoYaAprobadoException("Si te olvidaste de todo asistí de oyente. El alumno ya tiene aprobado este curso.");
+			
+			// registra la inscripcion en el log
+			try {
+				log.registrar(this, "inscribir ",a.toString());
+			}
+			catch(IOException e){
+				throw new RegistroAuditoriaException("Ocurrió un error en el Registro y no se pudo completar la operación. vuelvas prontos.");	
+			}
+			
+			// inscribe al alumno al curso
+			inscriptos.add(a);
+			a.inscripcionAceptada(this);
 		}
 
 

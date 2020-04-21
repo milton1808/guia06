@@ -2,6 +2,7 @@ package died.guia06;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -40,7 +41,7 @@ class CursoTest {
 	}
 	
 	@Test
-	void testInscripcionValida() {
+	void testInscripcionValida() throws IOException {
 		Boolean inscripcion=false;
 		
 		inscripcion= cursos.get(0).inscribir(alumnos.get(0));
@@ -49,7 +50,7 @@ class CursoTest {
 	}
 	
 	@Test
-	void testInscripcionInvalidaPorCreditos() {
+	void testInscripcionInvalidaPorCreditos() throws IOException {
 		Boolean inscripcion=false;
 		
 		inscripcion= cursos.get(4).inscribir(alumnos.get(0));
@@ -58,7 +59,7 @@ class CursoTest {
 	}
 	
 	@Test
-	void testInscripcionInvalidaPorCupo() {
+	void testInscripcionInvalidaPorCupo() throws IOException {
 		Boolean inscripcion=false;
 		cursos.get(1).inscribir(alumnos.get(0));
 		cursos.get(1).inscribir(alumnos.get(1));
@@ -67,7 +68,7 @@ class CursoTest {
 		assertFalse(inscripcion);
 	}
 	@Test
-	void testInscripcionInvalidaPorCicloLectivo() {
+	void testInscripcionInvalidaPorCicloLectivo() throws IOException {
 		Boolean inscripcion=false;
 		cursos.get(0).inscribir(alumnos.get(0));
 		cursos.get(1).inscribir(alumnos.get(0));
@@ -77,7 +78,7 @@ class CursoTest {
 		assertFalse(inscripcion);
 	}
 	@Test
-	void testInscripcionInvalidaPorYaEstarInscripto() {
+	void testInscripcionInvalidaPorYaEstarInscripto() throws IOException {
 		Boolean inscripcion=false;
 		
 		cursos.get(10).inscribir(alumnos.get(0));
@@ -86,7 +87,7 @@ class CursoTest {
 		assertFalse(inscripcion);
 	}
 	@Test
-	void testImprimirInscriptos() {
+	void testImprimirInscriptos() throws IOException {
 		
 		//creamos un string con el curso ordenado correctamente
 		String valido = cursos.get(0).toString();
@@ -118,7 +119,7 @@ class CursoTest {
 		
 	}
 	@Test
-	void testImprimirInscriptosPorLibreta() {
+	void testImprimirInscriptosPorLibreta() throws IOException {
 		
 		//creamos un string con el curso ordenado correctamente
 		String valido = cursos.get(0).toString();
@@ -152,7 +153,7 @@ class CursoTest {
 	
 	
 	@Test
-	void testImprimirInscriptosPorCreditosObtenidos() {
+	void testImprimirInscriptosPorCreditosObtenidos() throws IOException {
 		//inscribimos todos al curso 9
 		cursos.get(9).inscribir(alumnos.get(0));
 		cursos.get(9).inscribir(alumnos.get(1));
