@@ -40,15 +40,16 @@ public class App {
 			randomCurso = numRandom.nextInt(10);
 			randomAlumno = numRandom.nextInt(30);
 			
+				
 			try {
-				
-				if(cursos.get(randomCurso).inscribir(alumnos.get(randomAlumno))) System.out.println("Se inscribio "+alumnos.get(randomAlumno).getNombre()+" en "+cursos.get(randomCurso).getNombre());
-				else System.out.println("NO SE PUDO INSCRIBIR "+alumnos.get(randomAlumno).getNombre()+" en "+cursos.get(randomCurso).getNombre());
-			
-			} catch (IOException e) {
-				System.out.println("No se realizó la operación. Error al intentar escribir en el Registro, verifique el archivo registro.log");
-				
+				cursos.get(randomCurso).inscribirAlumno(alumnos.get(randomAlumno));
+				System.out.println("Se Inscribió a "+alumnos.get(randomAlumno).getNombre()+" al curso "+cursos.get(randomCurso).getNombre());
+			} catch (CreditosInsuficientesException | CupoCubiertoException | ExcesoDeCursosDelMismoCicloException
+					| CursoYaAprobadoException | YaPerteneceAlCursoException | RegistroAuditoriaException e) {
+				System.out.println(e.getMessage());
 			}
+			
+			
 			
 			randomCurso = numRandom.nextInt(10);
 			randomAlumno = numRandom.nextInt(30);			
@@ -67,6 +68,8 @@ public class App {
 
 			}
 		}
+		
+		System.out.println("Presione ENTER para mostrar la lista de inscriptos ordenados por número de libreta. ");
 		pauser.nextLine();
 		
 		//imprimimos los cursos por nro de libreta
@@ -81,9 +84,10 @@ public class App {
 			}
 		}
 		
+		System.out.println("Presione ENTER para mostrar la lista de inscriptos ordenados por creditos obtenidos. ");
 		pauser.nextLine();
 		
-		//imprimimos los cursos por nro de libreta
+		//imprimimos los cursos por nro de Creditos obtenidos
 		for(int i=0; i<10;i++) {
 			try {
 				
